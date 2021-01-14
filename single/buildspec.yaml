@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS Step Functions project for parallel inference demo
+Resources:
+  ExecutionLambda:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Handler: "index.lambda_handler"
+      Role: !GetAtt [ BucketLambdaExecutionRole, Arn ]
+      Code:
+        ZipFile:
+          !Sub
+            - |-
+              import boto3
+            - { bucket: !Ref BucketForModelAndData}
+      Runtime: "python3.7"
+      MemorySize: "1920"
+      Timeout: "900"
+  BucketLambdaExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: LambaForInferencePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - "s3:PutObject"
+                Resource: !Join ["/", [!GetAtt BucketForModelAndData.Arn, "*"]]
+  BucketForModelAndData:
+    Type: "AWS::S3::Bucket"
