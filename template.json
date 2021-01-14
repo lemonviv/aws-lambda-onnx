@@ -5,17 +5,17 @@
     "Parameters": {
         "BuildCode": {
             "Type": "String",
-            "Default": "https://github.com/joddiy/serverless_onnxruntime",
+            "Default": "https://github.com/lemonviv/aws-lambda-onnx",
             "Description": "Enter the Github repo that contains the buildspec.yaml for CodeBuild to create Lambda Layers."
         },
         "InferenceCode": {
             "Type": "String",
-            "Default": "https://github.com/joddiy/serverless_onnxruntime/raw/master/demo/inference.zip",
+            "Default": "https://github.com/lemonviv/aws-lambda-onnx/blob/main/single/inference.zip",
             "Description": "Enter a URL for the Lambda inference .zip package."
         },
         "FrontendCode": {
             "Type": "String",
-            "Default": "https://github.com/joddiy/serverless_onnxruntime/raw/master/demo/frontend.html",
+            "Default": "https://github.com/lemonviv/aws-lambda-onnx/blob/main/single/frontend.html",
             "Description": "Enter a URL for the static frontend code."
         }
     },
