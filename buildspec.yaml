@@ -11,36 +11,6 @@ phases:
       - python3 -m pip install --user virtualenv
       - python3 -m virtualenv OnnxRuntime
       - source OnnxRuntime/bin/activate
-      - pip install pillow==6.0.0 numpy==1.19.2 requests==2.24.0
-      - rm -rf $(find OnnxRuntime/lib/python3.7/site-packages/numpy -name tests)
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/* onnxruntime/python
-      - rm -rf onnxruntime/python/pip*
-      - rm -rf onnxruntime/python/wheel*
-      - rm -rf onnxruntime/python/setuptools*
-      - rm -rf onnxruntime/python/pkg_resources
-      - pip install Pillow==6.0.0 transformers==3.2.0
-      - rm -rf $(find OnnxRuntime/lib/python3.7/site-packages/ -name tests)
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/PIL* pillow/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/requests* pillow/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/numpy* pillow/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/chardet* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/click* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/filelock* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/idna* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/joblib* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/numpy* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/packaging* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/pyparsing* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/regex* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/requests* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/sacremoses* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/sentencepiece* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/_sentencepiece* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/six* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/tokenizers* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/tqdm* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/transformers* transformers/python
-      - cp -r OnnxRuntime/lib/python3.7/site-packages/urllib3* transformers/python
 
 artifacts:
   name: onnxruntime

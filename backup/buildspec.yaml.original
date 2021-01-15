@@ -9,7 +9,7 @@ phases:
       - mkdir -p mxnet/python pillow/python keras/python scipy/python gluoncv/python gluonnlp/python xgboost/python sklearn/python numpy/python
       - python3 -m pip install --user pip --upgrade
       - python3 -m pip install --user virtualenv
-      - python3 -m virtualenv MXNet
+      - python3 -m virtualenv MXNetl
       - source MXNet/bin/activate
       - pip install mxnet==1.4.0.post0
       - rm -rf $(find MXNet/lib/python3.7/site-packages/numpy -name tests)
