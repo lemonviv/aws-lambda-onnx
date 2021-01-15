@@ -10,12 +10,12 @@
         },
         "InferenceCode": {
             "Type": "String",
-            "Default": "https://github.com/lemonviv/aws-lambda-onnx/raw/main/single/inference.zip",
+            "Default": "https://github.com/lemonviv/aws-lambda-onnx/raw/main/demo/inference.zip",
             "Description": "Enter a URL for the Lambda inference .zip package."
         },
         "FrontendCode": {
             "Type": "String",
-            "Default": "https://github.com/lemonviv/aws-lambda-onnx/raw/main/single/frontend.html",
+            "Default": "https://github.com/lemonviv/aws-lambda-onnx/raw/main/demo/frontend.html",
             "Description": "Enter a URL for the static frontend code."
         }
     },
