@@ -168,17 +168,41 @@
             "Type": "AWS::CodeBuild::Project",
             "Properties": {
                 "Artifacts": {
-                    "ArtifactIdentifier": "onnxruntime",
+                    "ArtifactIdentifier": "mxnet",
                     "Location": {
                         "Ref": "LambdaLayerBucket"
                     },
-                    "Name": "onnxruntime.zip",
+                    "Name": "mxnet.zip",
                     "NamespaceType": "NONE",
                     "Packaging": "ZIP",
                     "Path": "layers/",
                     "Type": "S3"
                 },
                 "SecondaryArtifacts": [
+                    {
+                        "ArtifactIdentifier": "keras",
+                        "Location": {
+                            "Fn::Select": [
+                                "1",
+                                {
+                                    "Fn::Split": [
+                                        ":::",
+                                        {
+                                            "Fn::GetAtt": [
+                                                "LambdaLayerBucket",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Name": "keras.zip",
+                        "NamespaceType": "NONE",
+                        "Packaging": "ZIP",
+                        "Path": "layers/",
+                        "Type": "S3"
+                    },
                     {
                         "ArtifactIdentifier": "pillow",
                         "Location": {
@@ -204,7 +228,7 @@
                         "Type": "S3"
                     },
                     {
-                        "ArtifactIdentifier": "transformers",
+                        "ArtifactIdentifier": "scipy",
                         "Location": {
                             "Fn::Select": [
                                 "1",
@@ -221,7 +245,79 @@
                                 }
                             ]
                         },
-                        "Name": "transformers.zip",
+                        "Name": "scipy.zip",
+                        "NamespaceType": "NONE",
+                        "Packaging": "ZIP",
+                        "Path": "layers/",
+                        "Type": "S3"
+                    },
+                    {
+                        "ArtifactIdentifier": "gluonnlp",
+                        "Location": {
+                            "Fn::Select": [
+                                "1",
+                                {
+                                    "Fn::Split": [
+                                        ":::",
+                                        {
+                                            "Fn::GetAtt": [
+                                                "LambdaLayerBucket",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Name": "gluonnlp.zip",
+                        "NamespaceType": "NONE",
+                        "Packaging": "ZIP",
+                        "Path": "layers/",
+                        "Type": "S3"
+                    },
+                    {
+                        "ArtifactIdentifier": "gluoncv",
+                        "Location": {
+                            "Fn::Select": [
+                                "1",
+                                {
+                                    "Fn::Split": [
+                                        ":::",
+                                        {
+                                            "Fn::GetAtt": [
+                                                "LambdaLayerBucket",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Name": "gluoncv.zip",
+                        "NamespaceType": "NONE",
+                        "Packaging": "ZIP",
+                        "Path": "layers/",
+                        "Type": "S3"
+                    },
+                    {
+                        "ArtifactIdentifier": "sklearn",
+                        "Location": {
+                            "Fn::Select": [
+                                "1",
+                                {
+                                    "Fn::Split": [
+                                        ":::",
+                                        {
+                                            "Fn::GetAtt": [
+                                                "LambdaLayerBucket",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Name": "sklearn.zip",
                         "NamespaceType": "NONE",
                         "Packaging": "ZIP",
                         "Path": "layers/",
@@ -461,7 +557,7 @@
                 }
             }
         },
-        "OnnxRuntimeLayer": {
+        "MXNetLayer": {
             "Type": "AWS::Lambda::LayerVersion",
             "Properties": {
                 "CompatibleRuntimes": [
@@ -471,10 +567,67 @@
                     "S3Bucket": {
                         "Ref": "LambdaLayerBucket"
                     },
-                    "S3Key": "layers/onnxruntime.zip"
+                    "S3Key": "layers/mxnet.zip"
                 },
-                "Description": "Lambda layer for the OnnxRuntime",
-                "LayerName": "OnnxRuntime"
+                "Description": "Lambda layer for the MXNet",
+                "LayerName": "MXNet"
+            },
+            "DependsOn": [
+                "BuiltS3"
+            ]
+        },
+        "GluonCVLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Properties": {
+                "CompatibleRuntimes": [
+                    "python3.7"
+                ],
+                "Content": {
+                    "S3Bucket": {
+                        "Ref": "LambdaLayerBucket"
+                    },
+                    "S3Key": "layers/gluoncv.zip"
+                },
+                "Description": "Gluon computer vision extension to MXNet",
+                "LayerName": "GluonCV"
+            },
+            "DependsOn": [
+                "BuiltS3"
+            ]
+        },
+        "GluonNLPLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Properties": {
+                "CompatibleRuntimes": [
+                    "python3.7"
+                ],
+                "Content": {
+                    "S3Bucket": {
+                        "Ref": "LambdaLayerBucket"
+                    },
+                    "S3Key": "layers/gluonnlp.zip"
+                },
+                "Description": "Gluon natural language processing extension to MXNet",
+                "LayerName": "GluonNLP"
+            },
+            "DependsOn": [
+                "BuiltS3"
+            ]
+        },
+        "MXNetKerasLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Properties": {
+                "CompatibleRuntimes": [
+                    "python3.7"
+                ],
+                "Content": {
+                    "S3Bucket": {
+                        "Ref": "LambdaLayerBucket"
+                    },
+                    "S3Key": "layers/keras.zip"
+                },
+                "Description": "Keras extension to MXNet",
+                "LayerName": "MXNetKeras"
             },
             "DependsOn": [
                 "BuiltS3"
@@ -499,7 +652,7 @@
                 "BuiltS3"
             ]
         },
-        "TransformersLayer": {
+        "SciPyLayer": {
             "Type": "AWS::Lambda::LayerVersion",
             "Properties": {
                 "CompatibleRuntimes": [
@@ -509,16 +662,35 @@
                     "S3Bucket": {
                         "Ref": "LambdaLayerBucket"
                     },
-                    "S3Key": "layers/transformers.zip"
+                    "S3Key": "layers/scipy.zip"
                 },
-                "Description": "Lambda layer for the transformers library",
-                "LayerName": "Transformers"
+                "Description": "Lambda layer for the scipy scientific computation library",
+                "LayerName": "SciPy"
             },
             "DependsOn": [
                 "BuiltS3"
             ]
         },
-        "OnnxRuntimeLambda": {
+        "SKLearnLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Properties": {
+                "CompatibleRuntimes": [
+                    "python3.7"
+                ],
+                "Content": {
+                    "S3Bucket": {
+                        "Ref": "LambdaLayerBucket"
+                    },
+                    "S3Key": "layers/sklearn.zip"
+                },
+                "Description": "Lambda layer for the SKLearn library",
+                "LayerName": "SKLearn"
+            },
+            "DependsOn": [
+                "BuiltS3"
+            ]
+        },
+        "MXNetLambda": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -570,19 +742,22 @@
                 "Timeout": "120",
                 "Role": {
                     "Fn::GetAtt": [
-                        "OnnxRuntimeLambda",
+                        "MXNetLambda",
                         "Arn"
                     ]
                 },
                 "Layers": [
                     {
-                        "Ref": "OnnxRuntimeLayer"
+                        "Ref": "MXNetLayer"
+                    },
+                    {
+                        "Ref": "SciPyLayer"
                     },
                     {
                         "Ref": "PillowLayer"
                     },
                     {
-                        "Ref": "TransformersLayer"
+                        "Ref": "GluonCVLayer"
                     }
                     
                 ],
